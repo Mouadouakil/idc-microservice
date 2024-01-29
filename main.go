@@ -5,6 +5,9 @@ import (
 	"math/rand"
 	"time"
     "encoding/json"
+    "log"
+     "github.com/gin-gonic/gin"
+
 )
 
 // LogEntry represents a log entry structure
@@ -79,16 +82,30 @@ func generateRandomIP() string {
 }
 
 func main() {
-	// Generate and print 5 random log entries
-	for i := 0; i < 5; i++ {
-		logEntry := generateRandomLogEntry()
-        logJSON, err := json.Marshal(logEntry);
-        if err != nil {
-            fmt.Println("Error marshalling JSON:", err)
-            return
-        };
-        fmt.Println(string(logJSON))
-	}
 
 
+
+     
+    router := gin.Default()
+
+    router.GET("/ping", func(c *gin.Context) {
+
+        for i := 0; i < 50; i++ {
+            logEntry := generateRandomLogEntry()
+            logJSON, err := json.Marshal(logEntry);
+            if err != nil {
+                fmt.Println("Error marshalling JSON:", err)
+                return
+            };
+            fmt.Println(string(logJSON))
+            log.Println(string(logJSON))
+        }
+
+
+            c.JSON(200, gin.H{
+            "message": "pong",
+            })
+    })
+   
+    router.Run(":8080")
 }
