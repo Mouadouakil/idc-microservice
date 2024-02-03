@@ -6,11 +6,9 @@ import (
 	"log"
 	"math/rand"
 	"time"
-
 	"github.com/gin-gonic/gin"
 )
 
-// LogEntry represents a log entry structure
 type LogEntry struct {
 	Msg   string    `json:"msg"`
 	Level string    `json:"level"`
@@ -33,24 +31,26 @@ type LogEntry struct {
 }
 
 // Possible values for each field
+
+// for idc-login         {"AUTHERR004","AUTHERR005","USRCRM001","CARDERR004","CARDERR006","CARDERR007","COMPERR001","COMPERR002", "COMPERR004","REQERR000", "REQERR001", "REQERR000", "REQERR005" ,"REQERR008" } 
+
 var possibleValues = map[string][]string{
 	"Msg":   {"for_icp"},
 	"Level": {"info"},
 	"Op":    {"auth"},
 	"Step":  {"begin", "end", "attempt", "ok", "ko", "otp_email", "otp_sms", "otp_pushNotif", "lock", "end"},
 	"Err":   {"cancel", "E_AUTH_AF_LOCKED", "E_AUTH_AF_BLOCKED", "E_AUTH_AF_PWD_WRONGCREDENTIALS", "E_AUTH_AF_WRONG_OTP", "E_AUTH_USER_NOT_FOUND"},
-	"Ua":    {"Chrome v 119.0.0.0 - Windows v 10.0", "Chrome v 120.0.0.0 - Windows v 10.0"},
-	"Sta":   {"a39487c32eae", "59ab3a08d9ee", "59ab3a08d9ee"},
+	"Ua":    {"Chrome v 119.0.0.0 - Windows v 10.0", "Chrome v 120.0.0.0 - Windows v 10.0", "Safari v 21.0.0.0 - Macos v 12.0"},
+	"Sta":   {"a39487c32eae", "59ab3a08d9ee", "59ab3a08d9ee","59ab3a08dare","13lb3a08dare"},
 	"Asid":  {"gzer15Gujtcrgg", " "},
 	"Spn":   {"e-iDarati", "My Bank", "Portail citoyen CNIE"},
-	"Spi":   {"5541902c-9dac-47e1-a780-dd962c6abd98", "d9649157-bde3-48f7-8c6f-09cc5ae95ca4"},
+	"Spi":   {"5541902c-9dac-47e1-a780-dd962c6abd98", "d9649157-bde3-48f7-8c6f-09cc5ae95ca4", "d9649157-bde3-48f7-8c6f-09cdaae95ca4"},
 	"Svi":   {"29b31af2-3027-4c3b-925d-8f542e638956", "29b31af2-3027-4c3b-925d-8f542e638956", "d9649157-bde3-48f7-8c6f-09cc5ae95ca4"},
 	"Svn":   {"Authentification", ""},
 	"Ct":    {"ma-cnie-v1", "ma-cnie-v2"},
 	"Acr":   {"pwd", "otp", "pwdNotp", "scNpin", "scNbio", "scNpinNbio", "scNpinNface", "scNpinNbioNface", "scNface", "phNpin", "phNpinNface", "phNface"},
 }
 
-// Constants
 const (
 	LogLevelInfo = "info"
 )
@@ -80,7 +80,6 @@ func generateRandomLogEntry() LogEntry {
 		Acr:   getRandomValue(possibleValues["Acr"]),
 	}
 
-	// Add error with 10% probability
 	if rand.Float32() < 0.2 {
 		logEntry.Err = getRandomValue(possibleValues["Err"])
 	}
